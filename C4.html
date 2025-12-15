@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Verification & Points Reward</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem 3rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        #passwordInput {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #passwordInput:focus {
+            border-color: #1677ff;
+        }
+
+        #verifyBtn {
+            padding: 0.8rem 2rem;
+            background-color: #1677ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        #verifyBtn:hover {
+            background-color: #0b5ed7;
+        }
+
+        /* 优化后的结果区域样式 */
+        #result {
+            margin-top: 1.5rem;
+            min-height: 60px; /* 预留空间，避免布局跳动 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 积分成功提示徽章 */
+        .points-badge {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #f6ffed;
+            border: 1px solid #b7eb8f;
+            color: #52c41a;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .points-number {
+            font-size: 1.5rem;
+            color: #52c41a;
+        }
+
+        /* 文字提示样式 */
+        .message {
+            font-size: 1.1rem;
+            font-weight: bold;
+            min-height: 1.5rem;
+        }
+
+        .success {
+            color: #52c41a;
+        }
+
+        .error {
+            color: #f5222d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+		<h1>C1 Enter Password to Get Points</h1>
+        <input type="password" id="passwordInput" placeholder="Please enter your password">
+        <button id="verifyBtn">Verify Password</button>
+        <!-- 优化后的结果区域：包含积分徽章和文字提示 -->
+        <div id="result">
+            <div class="points-badge" id="pointsBadge">
+                <span>You Got</span>
+                <span class="points-number">5</span>
+                <span>Points</span>
+            </div>
+            <div class="message" id="message"></div>
+        </div>
+    </div>
+
+    <script>
+        // 获取页面元素
+        const passwordInput = document.getElementById('passwordInput');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const pointsBadge = document.getElementById('pointsBadge');
+        const message = document.getElementById('message');
+
+        // 绑定验证按钮点击事件
+        verifyBtn.addEventListener('click', verifyPassword);
+
+        // 支持回车键触发验证
+        passwordInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                verifyPassword();
+            }
+        });
+
+        // 密码验证逻辑封装
+        function verifyPassword() {
+            // 获取用户输入的密码并去除首尾空格
+            const inputPassword = passwordInput.value.trim();
+            // 目标密码
+            const targetPassword = 'SteamSpread';
+
+            // 重置提示样式和内容
+            pointsBadge.style.display = 'none';
+            message.textContent = '';
+            message.className = 'message';
+
+            // 验证密码
+            if (inputPassword === targetPassword) {
+                // 显示积分徽章
+                pointsBadge.style.display = 'flex';
+                // 文字提示（可选，也可只保留徽章）
+                message.textContent = 'Congratulations!';
+                message.className = 'message success';
+            } else {
+                message.textContent = 'Wrong password, please try again.';
+                message.className = 'message error';
+            }
+        }
+    </script>
+</body>
+</html>
