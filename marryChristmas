@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry Christmas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 雪花动画 */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* 主容器 */
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            border: 3px solid #ff6b6b;
+        }
+
+        /* 圣诞树装饰 */
+        .tree {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 50px solid #2d5016;
+        }
+
+        .tree::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: -25px;
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 40px solid #2d5016;
+        }
+
+        .tree::after {
+            content: '';
+            position: absolute;
+            top: 35px;
+            left: -20px;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 30px solid #2d5016;
+        }
+
+        .star {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd700;
+            font-size: 20px;
+            animation: twinkle 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; transform: translateX(-50%) scale(0.8); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1.2); }
+        }
+
+        h1 {
+            color: #d42c2c;
+            margin: 20px 0 30px;
+            font-size: 28px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 18px;
+            border: 2px solid #ff6b6b;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        input:focus {
+            border-color: #d42c2c;
+            box-shadow: 0 0 15px rgba(212, 44, 44, 0.3);
+            transform: scale(1.02);
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff6b6b, #d42c2c);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(212, 44, 44, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 44, 44, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            min-height: 30px;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .result.show {
+            opacity: 1;
+            animation: bounce 0.6s ease-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .success {
+            color: #27ae60;
+        }
+
+        .error {
+            color: #e74c3c;
+        }
+
+        /* 圣诞装饰 */
+        .ornament {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .ornament1 {
+            width: 15px;
+            height: 15px;
+            background: #ff6b6b;
+            top: 10px;
+            left: 20px;
+            animation-delay: 0s;
+        }
+
+        .ornament2 {
+            width: 12px;
+            height: 12px;
+            background: #ffd700;
+            top: 15px;
+            right: 25px;
+            animation-delay: 1s;
+        }
+
+        .ornament3 {
+            width: 18px;
+            height: 18px;
+            background: #27ae60;
+            bottom: 20px;
+            left: 30px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 礼物盒 */
+        .gift {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 40px;
+            height: 40px;
+            background: #ff6b6b;
+            border: 2px solid #d42c2c;
+            border-radius: 5px;
+            position: relative;
+            animation: shake 2s ease-in-out infinite;
+        }
+
+        .gift::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -2px;
+            right: -2px;
+            height: 6px;
+            background: #ffd700;
+            transform: translateY(-50%);
+        }
+
+        .gift::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: -2px;
+            bottom: -2px;
+            width: 6px;
+            background: #ffd700;
+            transform: translateX(-50%);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        /* 积分显示效果 */
+        .points-animation {
+            animation: pointsGlow 1s ease-out;
+        }
+
+        @keyframes pointsGlow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); text-shadow: 0 0 20px #27ae60; }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 雪花效果 -->
+    <div id="snowflakes"></div>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 圣诞树和星星 -->
+        <div class="star">⭐</div>
+        <div class="tree"></div>
+        
+        <!-- 圣诞装饰 -->
+        <div class="ornament ornament1"></div>
+        <div class="ornament ornament2"></div>
+        <div class="ornament ornament3"></div>
+        
+        <!-- 礼物盒 -->
+        <div class="gift"></div>
+
+        <h1>🎄 圣诞密码兑换 🎄</h1>
+        
+        <div class="input-group">
+            <input type="password" id="passwordInput" placeholder="请输入兑换密码...">
+        </div>
+        
+        <button onclick="checkPassword()">🎁 兑换积分</button>
+        
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        // 创建雪花效果
+        function createSnowflakes() {
+            const snowflakesContainer = document.getElementById('snowflakes');
+            const snowflakeSymbols = ['❄', '❅', '❆'];
+            
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+                snowflake.style.animationDelay = Math.random() * 2 + 's';
+                snowflake.style.opacity = Math.random() * 0.6 + 0.4;
+                snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+
+        // 检查密码
+        function checkPassword() {
+            const input = document.getElementById('passwordInput');
+            const result = document.getElementById('result');
+            const password = input.value.trim();
+            
+            if (password === 'WISE2026') {
+                result.innerHTML = '🎉 获得9个积分！';
+                result.className = 'result show success points-animation';
+                
+                // 添加额外的庆祝效果
+                setTimeout(() => {
+                    createCelebration();
+                }, 300);
+                
+                // 清空输入框
+                input.value = '';
+                
+                // 3秒后隐藏结果
+                setTimeout(() => {
+                    result.classList.remove('show');
+                }, 3000);
+                
+            } else if (password === '') {
+                result.innerHTML = '请输入密码！';
+                result.className = 'result show error';
+                
+                setTimeout(() => {
+                    result.classList.remove('show');
+                }, 2000);
+            } else {
+                result.innerHTML = '密码错误，请重试！';
+                result.className = 'result show error';
+                
+                // 输入框震动效果
+                input.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    input.style.animation = '';
+                }, 500);
+                
+                setTimeout(() => {
+                    result.classList.remove('show');
+                }, 2000);
+            }
+        }
+
+        // 创建庆祝效果
+        function createCelebration() {
+            const colors = ['#ff6b6b', '#ffd700', '#27ae60', '#ff8e53', '#ff6b9d'];
+            
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = '50%';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.animation = 'confettiFall 2s ease-out forwards';
+                confetti.style.zIndex = '1000';
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 2000);
+            }
+        }
+
+        // 添加彩带动画样式
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confettiFall {
+                0% {
+                    transform: translateY(-10px) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(100vh) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 回车键提交
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // 页面加载时创建雪花
+        window.addEventListener('load', createSnowflakes);
+    </script>
+</body>
+</html>
