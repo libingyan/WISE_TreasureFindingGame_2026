@@ -293,13 +293,13 @@
         <!-- 礼物盒 -->
         <div class="gift"></div>
 
-        <h1>🎄 圣诞密码兑换 🎄</h1>
+        <h1>🎄 Christmas Secret Code 🎄</h1>
         
         <div class="input-group">
-            <input type="password" id="passwordInput" placeholder="请输入兑换密码...">
+            <input type="password" id="passwordInput" placeholder="Please input the special secret code">
         </div>
         
-        <button onclick="checkPassword()">🎁 兑换积分</button>
+        <button onclick="checkPassword()">🎁 Submit </button>
         
         <div id="result" class="result"></div>
     </div>
@@ -330,7 +330,7 @@
             const password = input.value.trim();
             
             if (password === 'WISE2026') {
-                result.innerHTML = '🎉 获得9个积分！';
+                result.innerHTML = '🎉 Congratulations！ You win 9 points！';
                 result.className = 'result show success points-animation';
                 
                 // 添加额外的庆祝效果
@@ -347,14 +347,14 @@
                 }, 3000);
                 
             } else if (password === '') {
-                result.innerHTML = '请输入密码！';
+                result.innerHTML = 'Please input password ✧｡٩(ˊᗜˋ )و✧';
                 result.className = 'result show error';
                 
                 setTimeout(() => {
                     result.classList.remove('show');
                 }, 2000);
             } else {
-                result.innerHTML = '密码错误，请重试！';
+                result.innerHTML = 'password wrong😭 ';
                 result.className = 'result show error';
                 
                 // 输入框震动效果
